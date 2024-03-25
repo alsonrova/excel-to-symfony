@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    <h1>Edit data</h1>
+
+    {{ form_start(form, { 'attr' : { 'class': 'form-customer' } }) }}
+        {{ form_row(form) }}
+        <button type="submit" class="btn btn-primary">Envoyer</button>
+    {{ form_end(form) }}
+    
+{% endblock %}
+
+{% block javascripts %}
+    
+{% endblock %}

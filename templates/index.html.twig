@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Upload Excel{% endblock %}
+
+{% block body %}
+    
+    <div class="home-container">
+        
+
+    {{ form_start(form) }}
+        <h1>Uploader un fichier Excel</h1>
+        {{ form_row(form.file) }}
+        <button type="submit" class="btn btn-primary">Envoyer</button>
+    {{ form_end(form) }}
+        <table id="myTable" class="display">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Propriétaire</th>
+                    <th>Modèle</th>
+                    <th>Marque</th>
+                    <th>Matricule</th>
+                    <th>Fiche</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="customers" data-customers={{ customers|json_encode|e('html_attr') }}>
+             {% for customer in customers %}
+                <tr id="{{ customer.id }}">
+                    <td>{{ customer.id }}</td>
+                    <td>{{ customer.currentowner }}</td>
+                    <td>{{ customer.make }}</td>
+                    <td>{{ customer.model }}</td>
+                    <td>{{ customer.registration }}</td>
+                    <td>{{ customer.filenumber }}</td>
+                    <td>
+                        <a href="{{ path('app_customer_info', { 'id': customer.id }) }}">LINK</a>
+                        <p class="delete-button" data-id="{{customer.id}}">Delete</p>
+                    </td>
+                </tr>
+                
+                
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="delete-modal-container">
+            <div class="delete-modal">
+                <h3>Voulez vous supprimez ce client ?</h3>
+                <button class="delete-modal-button delete-modal-close">Annuler</button>
+                <a href="{{ path('app_customer_delete', { 'id': 540 }) }}"><button class="delete-modal-button">Supprimer</button></a>
+            </div>     
+        </div>
+        
+    </div>
+    
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
+    <script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script>
+    <script>
+        let table = new DataTable('#myTable');
+        $(document).ready( function () {
+            $('#myTable').DataTable({
+                drawCallback : function(){
+                    $('.delete-button').on('click', function () {
+                    $('.delete-modal-close').on('click', function () {
+                        $('.delete-modal-container').removeClass('activated');
+                    });
+                    $('.delete-modal-container').toggleClass('activated');
+                    const customerID = $(this).data('id');
+                    console.log("Delete button clicked for customer:", customerID);
+                    $('.delete-modal a').attr('href', '/delete/'+customerID );
+    
+                    });
+                    
+                }
+            });
+            
+        } );
+
+        //  const customerToDelete = document.querySelectorAll("delete-button")
+
+        //     console.log(customerToDelete)
+        //     customerToDelete.addEventListener("click", (event) => {
+
+        //     const elementClick = event.target;
+
+
+        //     if (elementClick.tagName === "p") {
+        //         const id = elementClick.dataset.id;
+        //         console.log(`ID de l'élément cliqué : ${id}`);
+        //     }
+        //     });
+     
+
+        
+    </script>
+{% endblock %}
