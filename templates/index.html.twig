@@ -6,17 +6,18 @@
     
     <div class="home-container">
 
-    {{ form_start(form) }}
-        <h1>Uploader un fichier Excel</h1>
+    {{ form_start(form , { 'attr' : { 'class': 'form-file' }}) }}
+        <h2>Uploader un fichier Excel</h2>
         {{ form_row(form.file) }}
-        <button type="submit" class="btn btn-primary">Envoyer</button>
+        <button type="submit" class="submit-file">Envoyer</button>
     {{ form_end(form) }}
+        <h1>
+            Liste des clients
+        </h1>
+        <small>
+            Searching works with : Name, Firstname, each type of number, Email
+        </small>
         <table id="myTable" class="display">
-        <div class="filter-options"> 
-            <lable></label><input type="radio" id="seller" name="filter" value="546"/>
-            <input type="radio" id="vo" name="filter" value="vo"/>
-            <input type="radio" id="vn" name="filter" value="vn"/>
-        </div>
             {# <thead>
                 <tr>
                     <th>ID</th>
