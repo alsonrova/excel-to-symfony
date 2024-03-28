@@ -24,9 +24,17 @@ class ComposerStaticInit2e074b178cf99c894ccdda33ec3f7bde
             'voku\\helper\\' => 12,
             'voku\\' => 5,
         ),
+        'p' => 
+        array (
+            'phpDocumentor\\Reflection\\' => 25,
+        ),
         'Z' => 
         array (
             'ZipStream\\' => 10,
+        ),
+        'W' => 
+        array (
+            'Webmozart\\Assert\\' => 17,
         ),
         'T' => 
         array (
@@ -50,6 +58,7 @@ class ComposerStaticInit2e074b178cf99c894ccdda33ec3f7bde
             'Symfony\\Component\\VarDumper\\' => 28,
             'Symfony\\Component\\String\\' => 25,
             'Symfony\\Component\\Stopwatch\\' => 28,
+            'Symfony\\Component\\Serializer\\' => 29,
             'Symfony\\Component\\Runtime\\' => 26,
             'Symfony\\Component\\Routing\\' => 26,
             'Symfony\\Component\\PropertyInfo\\' => 31,
@@ -86,6 +95,7 @@ class ComposerStaticInit2e074b178cf99c894ccdda33ec3f7bde
             'Psr\\Cache\\' => 10,
             'PhpParser\\' => 10,
             'PhpOffice\\PhpSpreadsheet\\' => 25,
+            'PHPStan\\PhpDocParser\\' => 21,
         ),
         'M' => 
         array (
@@ -129,9 +139,19 @@ class ComposerStaticInit2e074b178cf99c894ccdda33ec3f7bde
             0 => __DIR__ . '/..' . '/voku/portable-ascii/src/voku',
             1 => __DIR__ . '/..' . '/voku/portable-utf8/src/voku',
         ),
+        'phpDocumentor\\Reflection\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
         'ZipStream\\' => 
         array (
             0 => __DIR__ . '/..' . '/maennchen/zipstream-php/src',
+        ),
+        'Webmozart\\Assert\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/webmozart/assert/src',
         ),
         'Twig\\' => 
         array (
@@ -200,6 +220,10 @@ class ComposerStaticInit2e074b178cf99c894ccdda33ec3f7bde
         'Symfony\\Component\\Stopwatch\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/stopwatch',
+        ),
+        'Symfony\\Component\\Serializer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/serializer',
         ),
         'Symfony\\Component\\Runtime\\' => 
         array (
@@ -307,8 +331,8 @@ class ComposerStaticInit2e074b178cf99c894ccdda33ec3f7bde
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -333,6 +357,10 @@ class ComposerStaticInit2e074b178cf99c894ccdda33ec3f7bde
         'PhpOffice\\PhpSpreadsheet\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
+        ),
+        'PHPStan\\PhpDocParser\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpstan/phpdoc-parser/src',
         ),
         'Matrix\\' => 
         array (

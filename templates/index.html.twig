@@ -5,7 +5,6 @@
 {% block body %}
     
     <div class="home-container">
-        
 
     {{ form_start(form) }}
         <h1>Uploader un fichier Excel</h1>
@@ -13,7 +12,7 @@
         <button type="submit" class="btn btn-primary">Envoyer</button>
     {{ form_end(form) }}
         <table id="myTable" class="display">
-            <thead>
+            {# <thead>
                 <tr>
                     <th>ID</th>
                     <th>Propriétaire</th>
@@ -24,11 +23,11 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody id="customers" data-customers={{ customers|json_encode|e('html_attr') }}>
+            <tbody id="customers">
              {% for customer in customers %}
-                <tr id="{{ customer.id }}">
+                <tr class="data-customer" data-seller="{{ customer.name }}" data-type-sellerdata-seller="{{ customer.voseller }}">
                     <td>{{ customer.id }}</td>
-                    <td>{{ customer.currentowner }}</td>
+                    <td>{{ customer.voseller }}</td>
                     <td>{{ customer.make }}</td>
                     <td>{{ customer.model }}</td>
                     <td>{{ customer.registration }}</td>
@@ -41,7 +40,7 @@
                 
                 
             {% endfor %}
-            </tbody>
+            </tbody> #}
         </table>
 
         <div class="delete-modal-container">
@@ -60,41 +59,105 @@
     <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
     <script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script>
     <script>
+        var API_URL = "http://127.0.0.1:8000/customers"
+        let apiData = []
+
         let table = new DataTable('#myTable');
         $(document).ready( function () {
-            $('#myTable').DataTable({
-                drawCallback : function(){
-                    $('.delete-button').on('click', function () {
-                    $('.delete-modal-close').on('click', function () {
-                        $('.delete-modal-container').removeClass('activated');
-                    });
-                    $('.delete-modal-container').toggleClass('activated');
-                    const customerID = $(this).data('id');
-                    console.log("Delete button clicked for customer:", customerID);
-                    $('.delete-modal a').attr('href', '/delete/'+customerID );
-    
-                    });
+            $.ajax({
+                url: API_URL,
+                dataType: "json", // Specify JSON data type
+                success: function(data) {
+                    // Store the response data in a variable (not a true constant)
+                    apiData = data;
+                      for (const objet of apiData) {
+                            objet.url = `/customer/${objet.id}`;
+                    }
+                    filter = {
+                        seller : null,
+                        date : null,
+                        civility : null,
+                        type: null
+                    }
+                        
+                    console.log(apiData); 
+                    $('#myTable').DataTable({
+                    data : apiData,
+                    columns: [
+                        { 
+                            data: 'id',
+                            title : 'ID'
+                        },
+                        { 
+                            data: 'currentOwner',
+                            title : 'Proprietaire' 
+                        },
+                        {   data: 'email',
+                            visible: false, 
+                            searchable: true 
+                        }
+                        ,
+                        {   data: 'jobPhoneNumber',
+                            visible: false, 
+                            searchable: true 
+                        },
+                        {   data: 'mobilePhoneNumber',
+                            visible: false, 
+                            searchable: true 
+                        },
+                        {   data: 'homePhoneNumber',
+                            visible: false, 
+                            searchable: true 
+                        },
+                         {   data: 'fileNumber',
+                            visible: false, 
+                            searchable: true 
+                        },
+                        
+                        {   data: 'firstname',
+                            visible: false, 
+                            searchable: true 
+                        },
+                        {   data: 'name',
+                            visible: false, 
+                            searchable: true 
+                        },
+                        {
+                            data: 'url',
+                            render: function ( data, type, row ) {
+                                    return '<a href="' + data + '">' + "voir details" + '</a>';
+                             }
+                        },
+                        {
+                            data: 'id',
+                            render: function ( data, type, row ) {
+                                    return '<p class="delete-button" data-id="'+ data +'">Delete</p>'
+                             }
+                        }
+                    ],
+                    drawCallback : function(){
+                        $('.delete-button').on('click', function () {
+                        $('.delete-modal-close').on('click', function () {
+                            $('.delete-modal-container').removeClass('activated');
+                        });
+                        $('.delete-modal-container').toggleClass('activated');
+                        const customerID = $(this).data('id');
+                        console.log("Delete button clicked for customer:", customerID);
+                        $('.delete-modal a').attr('href', '/delete/'+customerID );
+                        });
+                        console.log(apiData)
+
                     
+                }
+            });// Access and use the data
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error("Error:", textStatus, errorThrown);
                 }
             });
             
+            
         } );
-
-        //  const customerToDelete = document.querySelectorAll("delete-button")
-
-        //     console.log(customerToDelete)
-        //     customerToDelete.addEventListener("click", (event) => {
-
-        //     const elementClick = event.target;
-
-
-        //     if (elementClick.tagName === "p") {
-        //         const id = elementClick.dataset.id;
-        //         console.log(`ID de l'élément cliqué : ${id}`);
-        //     }
-        //     });
-     
-
-        
+    
     </script>
 {% endblock %}

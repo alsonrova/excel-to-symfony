@@ -7,6 +7,9 @@ use App\Form\AddDataType;
 use App\Form\CustomerType;
 use App\Entity\Customer;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -84,9 +87,22 @@ class CustomerController extends AbstractController
 
         return $this->render('index.html.twig',[
             'form' => $form->createView(),
-            'customers' => $customers,
+            'customers' => $customers
         ]);
     }
+
+    #[Route('/customers', name: 'app_customer_json')]
+    public function customers(Request $request, EntityManagerInterface $entityManager, SerializerInterface $serializer): Response
+    {
+        $customers = $entityManager->getRepository(Customer::class)->findAll();
+        $json = $serializer->serialize($customers, 'json', [
+            DateTimeNormalizer::FORMAT_KEY => 'Y-m-d',
+        ]);
+        $response = new Response($json);
+
+        return $response;
+    }
+
 
     #[Route('/customer/{id}', name: 'app_customer_info')]
     public function customer(Request $request, EntityManagerInterface $entityManager): Response
@@ -105,7 +121,7 @@ class CustomerController extends AbstractController
         return $this->render('customer.html.twig',[
             'form' => $form->createView(),
             'customer' => $customer,
-        ]);
+        ]); 
     }
 
     #[Route('/delete/{id}', name: 'app_customer_delete')]
