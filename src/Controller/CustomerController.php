@@ -76,13 +76,12 @@ class CustomerController extends AbstractController
                 //     $this->addFlash('error', "Erreur lors de la conversion de la date : {$row['S']}");
                 //     continue;
                 // }
-
                 $entityManager->persist($entity);
                 $entityManager->flush();
                 $this->addFlash('success', 'Les données ont été importées avec succès.');
-                return $this->redirectToRoute('app_customer');
-            }
-
+               
+            }   
+            return $this->redirectToRoute('app_customer');
         }
 
         return $this->render('index.html.twig',[

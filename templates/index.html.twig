@@ -12,6 +12,11 @@
         <button type="submit" class="btn btn-primary">Envoyer</button>
     {{ form_end(form) }}
         <table id="myTable" class="display">
+        <div class="filter-options"> 
+            <lable></label><input type="radio" id="seller" name="filter" value="546"/>
+            <input type="radio" id="vo" name="filter" value="vo"/>
+            <input type="radio" id="vn" name="filter" value="vn"/>
+        </div>
             {# <thead>
                 <tr>
                     <th>ID</th>
@@ -47,7 +52,7 @@
             <div class="delete-modal">
                 <h3>Voulez vous supprimez ce client ?</h3>
                 <button class="delete-modal-button delete-modal-close">Annuler</button>
-                <a href="{{ path('app_customer_delete', { 'id': 540 }) }}"><button class="delete-modal-button">Supprimer</button></a>
+                <a href="{{ path('app_customer_delete', { 'id': 0 }) }}"><button class="delete-modal-button">Supprimer</button></a>
             </div>     
         </div>
         
@@ -61,14 +66,12 @@
     <script>
         var API_URL = "http://127.0.0.1:8000/customers"
         let apiData = []
-
         let table = new DataTable('#myTable');
         $(document).ready( function () {
             $.ajax({
                 url: API_URL,
-                dataType: "json", // Specify JSON data type
+                dataType: "json", 
                 success: function(data) {
-                    // Store the response data in a variable (not a true constant)
                     apiData = data;
                       for (const objet of apiData) {
                             objet.url = `/customer/${objet.id}`;
@@ -91,6 +94,19 @@
                         { 
                             data: 'currentOwner',
                             title : 'Proprietaire' 
+                        },
+                        { 
+                            data: 'make',
+                            title : 'Marque' 
+                        }
+                        ,
+                        { 
+                            data: 'model',
+                            title : 'Modèle' 
+                        },
+                        { 
+                            data: 'registration',
+                            title : 'Matricule' 
                         },
                         {   data: 'email',
                             visible: false, 
@@ -124,12 +140,14 @@
                         },
                         {
                             data: 'url',
+                            title: 'Details',
                             render: function ( data, type, row ) {
                                     return '<a href="' + data + '">' + "voir details" + '</a>';
                              }
                         },
                         {
                             data: 'id',
+                            title: 'Delete',
                             render: function ( data, type, row ) {
                                     return '<p class="delete-button" data-id="'+ data +'">Delete</p>'
                              }
@@ -145,17 +163,34 @@
                         console.log("Delete button clicked for customer:", customerID);
                         $('.delete-modal a').attr('href', '/delete/'+customerID );
                         });
-                        console.log(apiData)
+                        console.log(apiData) 
+                        $('#seller').on('change', function() {
+                            // var filter = 546;
+                            // apiData.filter()
+                            // table.column(0).data().filter(function (value, index) {
+                            //     return value > 566 ? true : false;
+                            // }).draw();
+                            console.log("ok")
+                            let value = $(this).val();
+                            apiData = apiData.filter(data => data.id > 600)
+                            console.log(apiData);
+                            $('#datatable').DataTable({data: apiData}).draw();
+
+                        });
+                         
 
                     
                 }
-            });// Access and use the data
+            });
+            // Access and use the data
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.error("Error:", textStatus, errorThrown);
                 }
+            
             });
             
+           
             
         } );
     
